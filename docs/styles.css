@@ -5,7 +5,7 @@
   --text-color: #d0d7dd;
   --light-text: #8b939c;
   --border-color: #5a5a5a;
-  --font-family: 'Roboto', sans-serif;
+  --font-family: 	Lora;
 }
 
 * {
@@ -38,8 +38,9 @@ header {
 
 header .logo {
   font-weight: 700;
-  font-size: 1.6rem;
+  font-size: 40px;
   color: var(--accent-color);
+  font-family: Playfair Display;
 }
 
 .search-bar {
@@ -91,20 +92,23 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-family: 	Lora;
 }
 
 h1, h2 {
   text-align: center;
   color: var(--accent-color);
   margin-bottom: 20px;
+  font-family: Playfair Display !important;
 }
 
 h2 {
-      background: linear-gradient(to right, #4A90E2, #50E3C2);
+  background: linear-gradient(to right, #4A90E2, #50E3C2);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: bold;
-  font-size: 30px;
+  font-size: 50px;
+  font-family: Playfair Display !important;
 
 }
 .featured {
@@ -115,7 +119,20 @@ h2 {
   margin: 30px auto;
   max-width: 600px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  font-family: 	Lora;
+
 }
+
+.featured img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 15px 0;
+  border: rgb(0, 111, 139) 4px double !important;
+}
+
+
+
 
 #suggestions-container {
   display: flex;
