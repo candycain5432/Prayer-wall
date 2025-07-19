@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Family Book Club</title>
+  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+<body>
+  <header>
+    <div class="logo">BookStore</div>
+    <div class="profile-icon" title="User Profile"></div>
+  </header>
+
+  
+<div class="featured">
+     <section id="featured-book">
+    <h2>This Week’s Book!</h2>
+    <p><strong>Title:</strong>Pinocchio: With Reflections On A Father's Love</span></p>
+    <p><strong>Author:</strong> Franco Nembrini</span></p>
+    <p><strong>rating:</strong>★★★★★</span></p>
+  </section>
+</div>
+
+<div id="suggestions-container">
+  <section id="all-suggestions">
+    <h2>All Book Suggestions</h2>
+    <div id="suggestions-container">Loading suggestions...</div>
+  </section>
+</div>
+
+  <h2>Suggest a Book</h2>
+  <form id="suggest-form">
+    <input name="name" placeholder="Your name" required /><br />
+    <input name="title" placeholder="Book title" required /><br />
+    <input name="author" placeholder="Author" required /><br />
+    <button type="submit">Submit Suggestion</button>
+  </form>
+
+  
+
+  <div id="toast" class="toast"></div>
+
+  <script>
+   const backendUrl = "http://localhost:5000/api";
+
+// Load current book of the month
+fetch(`${backendUrl}/books/current`)
+  .then((res) => res.json())
+  .then((book) => {
+    if (book) {
+      document.getElementById("current-book").textContent =
+        `${book.title} by ${book.author}`;
+    } else {
+      document.getElementById("current-book").textContent =
+        "No current book set.";
+    }
+  })
+  .catch(() => {
+    document.getElementById("current-book").textContent =
+      "Failed to load current book.";
+  });
+
+// Load latest suggested book
+async function loadSuggestedBook() {
+  try {
+    const res = await fetch(`${backendUrl}/suggestions/suggested`);
+    if (!res.ok) throw new Error('Failed to fetch suggested book');
+    const suggestion = await res.json();
+
+    document.getElementById('book-title').textContent = suggestion.title || 'No title';
+    document.getElementById('book-author').textContent = suggestion.author || 'Unknown';
+    document.getElementById('book-name').textContent = suggestion.name || 'Anonymous';
+  } catch (error) {
+    console.error(error);
+    document.getElementById('book-title').textContent = 'Error loading book';
+    document.getElementById('book-author').textContent = '';
+    document.getElementById('book-name').textContent = '';
+  }
+}
+
+// Load all suggestions as cards
+async function loadAllSuggestions() {
+  const container = document.getElementById('suggestions-container');
+  try {
+    const res = await fetch(`${backendUrl}/suggestions`);
+    if (!res.ok) throw new Error('Failed to fetch suggestions');
+    const suggestions = await res.json();
+
+    if (suggestions.length === 0) {
+      container.textContent = 'No suggestions yet.';
+      return;
+    }
+
+    container.innerHTML = ''; // Clear previous
+
+    suggestions.forEach(suggestion => {
+      const card = document.createElement('div');
+      card.className = 'book-card';
+
+      card.innerHTML = `
+        <h3>${suggestion.title}</h3>
+        <p>Author: ${suggestion.author}</p>
+        <p>Suggested by: ${suggestion.name}</p>
+      `;
+
+      container.appendChild(card);
+    });
+  } catch (error) {
+    console.error(error);
+    container.textContent = 'Failed to load suggestions.';
+  }
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+  loadSuggestedBook();
+  loadAllSuggestions();
+});
+
+// Handle suggestion form submit
+document.getElementById("suggest-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const form = e.target;
+  const data = {
+    name: form.name.value,
+    title: form.title.value,
+    author: form.author.value,
+  };
+
+  try {
+    const response = await fetch(`${backendUrl}/suggestions`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    if (response.ok) {
+      showToast("Suggestion submitted successfully!");
+      form.reset();
+      loadSuggestedBook(); // Refresh featured book
+      loadAllSuggestions(); // Refresh suggestion cards
+    } else {
+      showToast("Your suggestion could not be submitted. Please try again later.");
+    }
+  } catch {
+    showToast("Network error. Please try again later.");
+  }
+});
+
+// Toast notification function
+function showToast(message, duration = 3000) {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.classList.add('show');
+
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, duration);
+}
+
+  </script>
+</body>
+</html>
