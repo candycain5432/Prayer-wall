@@ -14,7 +14,11 @@
 
 body {
   margin: 0;
-  background: linear-gradient(160deg, var(--bg-color-start), var(--bg-color-end));
+   background-color: var(--bg-color);
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
   font-family: var(--font-family);
   color: var(--text-color);
   line-height: 1.5;
@@ -270,35 +274,38 @@ h2 {
 
 /* Mobile responsive tweaks */
 @media (max-width: 600px) {
-  header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  .search-bar {
-    margin: 10px 0;
-    width: 100%;
+  body {
+    padding-left: 10px;
+    padding-right: 10px;
   }
 
   #suggestions-container {
-    flex-direction: row;
-    padding: 10px;
-
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   .book-card {
-    max-width: 100%;
-    flex: 1 1 100%;
+    flex: 0 0 280px;
+    max-width: 280px;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+
+  /* Optional: add some margin to bottom so content below has space */
+  #suggestions-container {
+    margin-bottom: 20px;
   }
 
   #suggest-form {
-    margin: 20px 10px;
-    padding: 20px;
+      padding-left: 10px !important;
+    padding-right: 10px !important;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+    box-sizing: border-box;
   }
-
-  #suggestions-container {
-  -webkit-overflow-scrolling: touch;
-}
-
 }

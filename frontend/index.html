@@ -45,22 +45,6 @@
   <script>
    const backendUrl = "http://localhost:5000/api";
 
-// Load current book of the month
-fetch(`${backendUrl}/books/current`)
-  .then((res) => res.json())
-  .then((book) => {
-    if (book) {
-      document.getElementById("current-book").textContent =
-        `${book.title} by ${book.author}`;
-    } else {
-      document.getElementById("current-book").textContent =
-        "No current book set.";
-    }
-  })
-  .catch(() => {
-    document.getElementById("current-book").textContent =
-      "Failed to load current book.";
-  });
 
 // Load latest suggested book
 async function loadSuggestedBook() {
