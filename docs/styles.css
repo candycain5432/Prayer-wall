@@ -26,6 +26,17 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.material-symbols-outlined {
+    background: transparent;
+    border: none; /* optional: removes border too */
+    box-shadow: none; /* optional: removes any shadow */
+    color: white;
+    cursor: pointer;
+}
+
+
+
+
 header {
   display: flex;
   flex-wrap: wrap;
