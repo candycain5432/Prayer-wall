@@ -77,7 +77,7 @@ async function loadAllSuggestions() {
     const suggestions = await res.json();
 
     if (suggestions.length === 0) {
-      container.textContent = 'No suggestions yet.';
+      container.textContent = 'No prayers yet.';
       return;
     }
 
