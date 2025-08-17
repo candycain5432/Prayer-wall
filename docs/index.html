@@ -2,43 +2,46 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Family Book Club</title>
+  <title>The Prayer Wall</title>
   <link rel="stylesheet" href="styles.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="https://i.postimg.cc/gjXRmBhD/240-F-416442499-Ytct-TITf-S3-M7-SH27pi-B8-MSj-XMblu-Hngg.png">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Lora&display=swap" rel="stylesheet">
 
-
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=home" />
 </head>
 <body>
   <header>
-    <div class="logo">Family Bookclub</div>
-  
+    <div class="logo">The Prayer Wall</div>
+    <a href="https://dailyfaith.site">
+    <button class="material-symbols-outlined" href="dailyfaith.site">
+home
+    </button>
+  </a>
   </header>
 
   
 <div class="featured">
      <section id="featured-book">
-    <h2>This Week’s Book!</h2>
-    <img src="https://i.postimg.cc/MpZkpGdj/BPINE4.jpg" alt="Featured Book Cover" />
-    <p><strong>Title:</strong>Pinocchio: With Reflections On A Father's Love</span></p>
-    <p><strong>Author:</strong> Franco Nembrini</span></p>
-    <p><strong>rating:</strong>★★★★★</span></p>
+    <h2>Pray with us!</h2>
+    <p>Please note that this feature is currently in testing as we strive to create the best experience for our community. We appreciate your patience and feedback as we refine the process. At Daily Faith, we deeply believe in the power of prayer to bring comfort, strength, and hope to all who seek it. When you submit a prayer request, know that it is not just a message sent into the void — it becomes part of a loving and caring community dedicated to lifting each other up through faith.</p>
+    <p>Our team and community members commit to praying earnestly for every intention shared here. Whether your prayer is for healing, guidance, gratitude, or peace, we hold these requests with reverence and compassion. We understand that life’s challenges can sometimes feel overwhelming, but you are never alone. Through our prayers, we seek to create a spiritual support network that transcends distance and circumstance, embracing all who come with open hearts.</p>
+    <p>As we continue to develop this feature, our goal is to foster a welcoming space where every prayer is heard and valued. We invite you to join us on this journey — together, we can grow stronger in faith and compassion, supporting one another in both joyful and difficult times. Thank you for trusting Daily Faith with your prayer requests. May we all find peace and strength in our shared devotion.</p>
   </section>
 </div>
-
+<h2>All prayer Intentions</h2>
 <div id="suggestions-container">
   <section id="all-suggestions">
-    <h2>All Book Suggestions</h2>
+    
     <div id="suggestions-container">Loading suggestions...</div>
   </section>
 </div>
 
-  <h2>Suggest a Book</h2>
+  <h2>Ask for a prayer</h2>
   <form id="suggest-form">
     <input name="name" placeholder="Your name" required /><br />
-    <input name="title" placeholder="Book title" required /><br />
-    <input name="author" placeholder="Author" required /><br />
-    <button type="submit">Submit Suggestion</button>
+    <input name="title" placeholder="Intentions" required /><br />
+    <button type="submit">Submit Prayer</button>
   </form>
 
   
@@ -57,12 +60,10 @@ async function loadSuggestedBook() {
     const suggestion = await res.json();
 
     document.getElementById('book-title').textContent = suggestion.title || 'No title';
-    document.getElementById('book-author').textContent = suggestion.author || 'Unknown';
     document.getElementById('book-name').textContent = suggestion.name || 'Anonymous';
   } catch (error) {
     console.error(error);
     document.getElementById('book-title').textContent = 'Error loading book';
-    document.getElementById('book-author').textContent = '';
     document.getElementById('book-name').textContent = '';
   }
 }
@@ -76,7 +77,7 @@ async function loadAllSuggestions() {
     const suggestions = await res.json();
 
     if (suggestions.length === 0) {
-      container.textContent = 'No suggestions yet.';
+      container.textContent = 'No prayers yet.';
       return;
     }
 
@@ -88,8 +89,7 @@ async function loadAllSuggestions() {
 
       card.innerHTML = `
         <h3>${suggestion.title}</h3>
-        <p>Author: ${suggestion.author}</p>
-        <p>Suggested by: ${suggestion.name}</p>
+        <p>Requested by: ${suggestion.name}</p>
       `;
 
       container.appendChild(card);
@@ -114,7 +114,6 @@ document.getElementById("suggest-form").addEventListener("submit", async (e) => 
   const data = {
     name: form.name.value,
     title: form.title.value,
-    author: form.author.value,
   };
 
   try {
@@ -125,15 +124,15 @@ document.getElementById("suggest-form").addEventListener("submit", async (e) => 
     });
 
     if (response.ok) {
-      showToast("Suggestion submitted successfully!");
+      showToast("May the Lord bless you for your prayer request!");
       form.reset();
       loadSuggestedBook(); // Refresh featured book
       loadAllSuggestions(); // Refresh suggestion cards
     } else {
-      showToast("Your suggestion could not be submitted. Please try again later.");
+      showToast("Failed to submit prayer request. Please try again.");
     }
   } catch {
-    showToast("Network error. Please try again later.");
+    showToast("Failed to submit prayer request. Please check your connection.");
   }
 });
 
